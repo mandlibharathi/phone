@@ -11,11 +11,17 @@ const contactSchema=new Schema({
         type:String,
     },
     phone:{
-        type:Number
+        type:String,
+        required:true,validate: {
+            validator: function(v) {
+              return /\d{3}-\d{3}-\d{4}/.test(v);
+            },
+            message: '{VALUE} is not a valid phone number!'
+          },
     },
     title:{
         type:String,
     }
 })
 
-module.exports=mongoose.model('contacts',contactSchema)
+module.exports= mongoose.model('contacts',contactSchema)

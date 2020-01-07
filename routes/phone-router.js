@@ -2,6 +2,8 @@ const express=require('express')
 const router=express.Router()
 const contacts=require('../models/contactdb')
 
+
+
 // adding  new contacts 
 router.post('/add',(req,res)=>{
     let name=req.body.name;
@@ -20,8 +22,8 @@ contacts.findOne({'phone':phone},(err,file)=>{
      res.json({msg:'sorry phone number already saved'})
     }
     else{
-        newContact.save((err,Response)=>{
-            if(err) return err;
+        newContact.save((error,Response)=>{
+            if(error) res.send(error.message)
             else
             res.json({msg:'contact saved sucessfully', res:Response})
         })
@@ -29,7 +31,7 @@ contacts.findOne({'phone':phone},(err,file)=>{
 })
 })
 
-
+// getting all contacts
 router.get('/',(req,res)=>{
     contacts.find({},(err,resp)=>{
         if(err){
@@ -57,6 +59,8 @@ contacts.findOneAndUpdate({'phone':phone},{name:name,phone:phone,title:title},(e
 })
 })
 
+
+// delete contact 
 router.delete('/delete',(req,res)=>{
     let phone=req.body.phone;
     contacts.findOneAndRemove({'phone':phone},(err,result)=>{
